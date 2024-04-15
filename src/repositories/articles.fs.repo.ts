@@ -2,6 +2,7 @@
 import { readFile, writeFile } from 'fs/promises';
 import createDebug from 'debug';
 import { type ArticleCreateDto, type Article } from '../entities/article';
+import { HttpError } from '../middleware/errors.middleware.js';
 const debug = createDebug('W7E:articles:repository:fs');
 
 export class ArticlesFsRepo {
@@ -25,7 +26,13 @@ export class ArticlesFsRepo {
 
   async readById(id: string) {
     const articles = await this.load();
-    return articles.find((article) => article.id === id);
+    const article = articles.find((article) => article.id === id);
+
+    if (!article) {
+      throw new HttpError(404, 'Not Found', `Article ${id} not found`);
+    }
+
+    return article;
   }
 
   async create(data: ArticleCreateDto) {
@@ -44,7 +51,7 @@ export class ArticlesFsRepo {
     let articles = await this.load();
     const article = articles.find((article) => article.id === id);
     if (!article) {
-      throw new Error(`Article ${id} not found`);
+      throw new HttpError(404, 'Not Found', `Article ${id} not found`);
     }
 
     const newArticle: Article = { ...article, ...data };
@@ -59,7 +66,7 @@ export class ArticlesFsRepo {
     let articles = await this.load();
     const article = articles.find((article) => article.id === id);
     if (!article) {
-      throw new Error(`Article ${id} not found`);
+      throw new HttpError(404, 'Not Found', `Article ${id} not found`);
     }
 
     articles = articles.filter((article) => article.id !== id);

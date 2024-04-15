@@ -41,6 +41,26 @@
   - routers
   - controllers
   - repositories
+
+
+## Express. Arquitectura. Gestión de Errores. Testing. Validación
+
+- Revisamos la arquitectura en capas
+  - models (entities)
+  - routers (como clase)
+  - controllers
+  - repositories (fileSystemRepository)
+  - app (Instancia Router, Controller y Repositorio)
+
 - Repositorio de datos - JSON FileSystem
+
+- Middleware de errores
+
+- Validación de datos con [Joi](https://joi.dev/)
+  - Ejemplo para la validación con Joi
+
+- Testing con [Jest](https://jestjs.io/)
+  - controller y repositorios
+  - router y app (test de humo)
 
 - Publicación (Deploy) en [Render](https://render.com/)

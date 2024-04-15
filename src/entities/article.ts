@@ -10,4 +10,5 @@ export type ArticleCreateDto = {
   title: string;
   author: string;
   content: string;
+  isPublished: boolean;
 };

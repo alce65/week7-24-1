@@ -2,7 +2,7 @@
 import { readFile, writeFile } from 'fs/promises';
 import createDebug from 'debug';
 import { type ArticleCreateDto, type Article } from '../entities/article';
-const debug = createDebug('W6E:repository:user');
+const debug = createDebug('W7E:articles:repository:fs');
 
 export class ArticlesFsRepo {
   constructor() {

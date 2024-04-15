@@ -3,9 +3,9 @@ import { type Article } from '../entities/article';
 import createDebug from 'debug';
 import { type ArticlesFsRepo } from '../repositories/articles.fs.repo.js';
 
-const debug = createDebug('W6E:controller:article');
+const debug = createDebug('W7E:articles:controller');
 
-export class ArticleController {
+export class ArticlesController {
   constructor(private readonly repo: ArticlesFsRepo) {
     debug('Instantiated article controller');
   }

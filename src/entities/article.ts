@@ -9,6 +9,6 @@ export type Article = {
 export type ArticleCreateDto = {
   title: string;
   author: string;
-  content: string;
-  isPublished: boolean;
+  content?: string;
+  isPublished?: boolean;
 };

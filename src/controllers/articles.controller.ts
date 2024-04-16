@@ -1,7 +1,7 @@
 import { type NextFunction, type Request, type Response } from 'express';
 import createDebug from 'debug';
 import { type ArticleCreateDto, type Article } from '../entities/article';
-import { type ArticlesFsRepo } from '../repositories/articles.fs.repo.js';
+import { type ArticlesSqlRepo } from '../repositories/articles.sql.repo';
 import {
   articleCreateDtoSchema,
   articleUpdateDtoSchema,
@@ -11,7 +11,7 @@ import { HttpError } from '../middleware/errors.middleware.js';
 const debug = createDebug('W7E:articles:controller');
 
 export class ArticlesController {
-  constructor(private readonly repo: ArticlesFsRepo) {
+  constructor(private readonly repo: ArticlesSqlRepo) {
     debug('Instantiated article controller');
   }
 

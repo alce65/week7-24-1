@@ -1,7 +1,7 @@
 import { type Request, type Response } from 'express';
-import { type ArticlesFsRepo } from '../repositories/articles.fs.repo';
 import { ArticlesController } from './articles.controller';
 import { HttpError } from '../middleware/errors.middleware';
+import { type ArticlesSqlRepo } from '../repositories/articles.sql.repo';
 
 describe('Given a instance of the class ArticlesController', () => {
   const repo = {
@@ -10,7 +10,7 @@ describe('Given a instance of the class ArticlesController', () => {
     create: jest.fn(),
     update: jest.fn(),
     delete: jest.fn(),
-  } as unknown as ArticlesFsRepo;
+  } as unknown as ArticlesSqlRepo;
 
   const req = {} as unknown as Request;
   const res = {

@@ -38,6 +38,8 @@ export class ArticlesFsRepo {
   async create(data: ArticleCreateDto) {
     const newArticle: Article = {
       id: crypto.randomUUID(),
+      content: data.content ?? '',
+      isPublished: data.isPublished ?? false,
       ...data,
     };
     let articles = await this.load();

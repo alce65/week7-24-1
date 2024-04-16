@@ -2,7 +2,7 @@ import { type PrismaClient } from '@prisma/client';
 import createDebug from 'debug';
 import { HttpError } from '../middleware/errors.middleware.js';
 import { type ArticleCreateDto } from '../entities/article.js';
-import { type ArticlesRepo } from './articles._.repo.js';
+import { type ArticlesRepo } from './articles.type.repo.js';
 const debug = createDebug('W7E:articles:repository:sql');
 
 const select = {

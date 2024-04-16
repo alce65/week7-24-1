@@ -7,7 +7,7 @@ import {
   articleUpdateDtoSchema,
 } from '../entities/article.schema.js';
 import { HttpError } from '../middleware/errors.middleware.js';
-import { type ArticlesRepo } from '../repositories/articles._.repo';
+import { type ArticlesRepo } from '../repositories/articles.type.repo';
 
 const debug = createDebug('W7E:articles:controller');
 

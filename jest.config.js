@@ -23,6 +23,7 @@ const config = {
     'entities',
     'interface',
     'tools',
+    'type',
     '_mock',
     //   "\\\\node_modules\\\\"
   ],

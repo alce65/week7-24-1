@@ -42,7 +42,6 @@
   - controllers
   - repositories
 
-
 ## Express. Arquitectura. Gestión de Errores. Testing. Validación
 
 - Revisamos la arquitectura en capas
@@ -64,3 +63,15 @@
   - router y app (test de humo)
 
 - Publicación (Deploy) en [Render](https://render.com/)
+
+- Bases de datos. SQL v.NoSQL. Conceptos básicos
+  - ORM [Prisma](https://www.prisma.io/)
+  - Servidor PostgreSql [Render](https://render.com/)
+- Instalación y uso
+  - Conexión a una base de datos PostgreSql con Prisma
+  - Esquema (DB) y modelos (tables)
+  - Repositorio de datos - Sql: CRUD
+  - Testing con Jest
+  
+- Repositorio basado en interfaces
+  - Inversión de dependencias

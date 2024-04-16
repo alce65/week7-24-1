@@ -7,11 +7,12 @@ import {
   articleUpdateDtoSchema,
 } from '../entities/article.schema.js';
 import { HttpError } from '../middleware/errors.middleware.js';
+import { type ArticlesRepo } from '../repositories/articles._.repo';
 
 const debug = createDebug('W7E:articles:controller');
 
 export class ArticlesController {
-  constructor(private readonly repo: ArticlesSqlRepo) {
+  constructor(private readonly repo: ArticlesRepo) {
     debug('Instantiated article controller');
   }
 

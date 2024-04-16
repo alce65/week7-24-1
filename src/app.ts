@@ -26,6 +26,7 @@ export const startApp = (app: Express, prisma: PrismaClient) => {
   const usersRouter = new UsersRouter();
   app.use('/users', usersRouter.router);
 
+  // Prev const articlesRepo = new ArticlesFsRepo();
   const articlesRepo = new ArticlesSqlRepo(prisma);
   const articlesController = new ArticlesController(articlesRepo);
   const articlesRouter = new ArticlesRouter(articlesController);

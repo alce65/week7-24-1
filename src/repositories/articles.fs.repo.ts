@@ -2,10 +2,11 @@
 import { readFile, writeFile } from 'fs/promises';
 import createDebug from 'debug';
 import { type ArticleCreateDto, type Article } from '../entities/article';
+import { type ArticlesRepo } from '../repositories/articles._.repo';
 import { HttpError } from '../middleware/errors.middleware.js';
 const debug = createDebug('W7E:articles:repository:fs');
 
-export class ArticlesFsRepo {
+export class ArticlesFsRepo implements ArticlesRepo {
   constructor() {
     debug('Instantiated articles fs repository');
   }

@@ -1,8 +1,8 @@
 import { type PrismaClient } from '@prisma/client';
 import createDebug from 'debug';
 import { HttpError } from '../middleware/errors.middleware.js';
-import { type ArticleCreateDto } from '../entities/article.js';
-import { type ArticlesRepo } from './articles.type.repo.js';
+import { type Article, type ArticleCreateDto } from '../entities/article.js';
+import { type Repo } from './type.repo.js';
 const debug = createDebug('W7E:articles:repository:sql');
 
 const select = {
@@ -12,7 +12,7 @@ const select = {
   content: true,
   isPublished: true,
 };
-export class ArticlesSqlRepo implements ArticlesRepo {
+export class ArticlesSqlRepo implements Repo<Article, ArticleCreateDto> {
   constructor(private readonly prisma: PrismaClient) {
     debug('Instantiated articles fs repository');
   }

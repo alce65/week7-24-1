@@ -25,6 +25,15 @@ export class ArticlesFsRepo
     await writeFile('articles.json', JSON.stringify(articles, null, 2));
   }
 
+  private checkIfArticleExists(id: string, articles: ArticleSingle[]) {
+    const article = articles.find((article) => article.id === id);
+    if (!article) {
+      throw new HttpError(404, 'Not Found', `Article ${id} not found`);
+    }
+
+    return article;
+  }
+
   async readAll() {
     const articles = await this.load();
     return articles;
@@ -32,12 +41,7 @@ export class ArticlesFsRepo
 
   async readById(id: string) {
     const articles = await this.load();
-    const article = articles.find((article) => article.id === id);
-
-    if (!article) {
-      throw new HttpError(404, 'Not Found', `ArticleSingle ${id} not found`);
-    }
-
+    const article = this.checkIfArticleExists(id, articles);
     return article;
   }
 
@@ -56,10 +60,7 @@ export class ArticlesFsRepo
 
   async update(id: string, data: Partial<ArticleSingle>) {
     let articles = await this.load();
-    const article = articles.find((article) => article.id === id);
-    if (!article) {
-      throw new HttpError(404, 'Not Found', `ArticleSingle ${id} not found`);
-    }
+    const article = this.checkIfArticleExists(id, articles);
 
     const newArticleSingle: ArticleSingle = { ...article, ...data };
     articles = articles.map((article) =>
@@ -71,10 +72,7 @@ export class ArticlesFsRepo
 
   async delete(id: string) {
     let articles = await this.load();
-    const article = articles.find((article) => article.id === id);
-    if (!article) {
-      throw new HttpError(404, 'Not Found', `ArticleSingle ${id} not found`);
-    }
+    const article = this.checkIfArticleExists(id, articles);
 
     articles = articles.filter((article) => article.id !== id);
     await this.save(articles);

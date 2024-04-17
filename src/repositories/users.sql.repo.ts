@@ -39,7 +39,6 @@ export class UsersSqlRepo
       where: { id },
       select,
     });
-
     if (!user) {
       throw new HttpError(404, 'Not Found', `User ${id} not found`);
     }
@@ -49,7 +48,6 @@ export class UsersSqlRepo
 
   async create(data: UserCreateDto) {
     const { birthDateString, ...rest } = data;
-
     const newUser = this.prisma.user.create({
       data: {
         role: 'user',
@@ -58,7 +56,6 @@ export class UsersSqlRepo
       },
       select,
     });
-
     return newUser;
   }
 

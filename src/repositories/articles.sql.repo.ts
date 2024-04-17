@@ -8,25 +8,34 @@ const debug = createDebug('W7E:articles:repository:sql');
 const select = {
   id: true,
   title: true,
-  author: true,
+  author: {
+    select: {
+      name: true,
+      email: true,
+      birthDate: true,
+      role: true,
+    },
+  },
   content: true,
   isPublished: true,
 };
+
 export class ArticlesSqlRepo implements Repo<Article, ArticleCreateDto> {
   constructor(private readonly prisma: PrismaClient) {
-    debug('Instantiated articles fs repository');
+    debug('Instantiated articles sql repository');
   }
 
   async readAll() {
-    return this.prisma.article.findMany({
-      distinct: ['createdAt', 'updatedAt'], // SELECT DISTINCT createdAt, updatedAt FROM article
+    const articles = await this.prisma.article.findMany({
+      select,
     });
+    return articles;
   }
 
   async readById(id: string) {
     const article = await this.prisma.article.findUnique({
       where: { id },
-      select, // SELECT title, author... FROM article
+      select,
     });
 
     if (!article) {

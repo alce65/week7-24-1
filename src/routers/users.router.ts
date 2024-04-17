@@ -7,7 +7,7 @@ const debug = createDebug('W7E:users:router');
 export class UsersRouter {
   router = createRouter();
 
-  constructor(private readonly controller: UsersController) {
+  constructor(readonly controller: UsersController) {
     debug('Instantiated users router');
 
     this.router.get('/', controller.getAll.bind(controller));

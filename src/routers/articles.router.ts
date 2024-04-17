@@ -7,7 +7,7 @@ const debug = createDebug('W7E:articles:router');
 export class ArticlesRouter {
   router = createRouter();
 
-  constructor(private readonly controller: ArticlesController) {
+  constructor(readonly controller: ArticlesController) {
     debug('Instantiated articles router');
 
     this.router.get('/', controller.getAll.bind(controller));

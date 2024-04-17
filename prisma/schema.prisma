@@ -15,8 +15,9 @@ datasource db {
 
 model Article {
   id          String   @id @default(cuid())
-  title       String   
-  author      String
+  title       String
+  author      User     @relation(fields: [authorId], references: [id])
+  authorId    String
   content     String
   isPublished Boolean  @default(false)
   createdAt   DateTime @default(now())
@@ -24,14 +25,15 @@ model Article {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
+  id        String    @id @default(cuid())
+  email     String    @unique
   name      String
   password  String
   birthDate DateTime
-  role      Role     @default(user)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  role      Role      @default(user)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  articles  Article[]
 }
 
 enum Role {

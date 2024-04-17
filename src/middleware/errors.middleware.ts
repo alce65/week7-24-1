@@ -1,5 +1,6 @@
 import { type NextFunction, type Request, type Response } from 'express';
 import createDebug from 'debug';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 const debug = createDebug('W7E:errors:middleware');
 
 export class HttpError extends Error {
@@ -18,21 +19,30 @@ export class ErrorsMiddleware {
   }
 
   handle(error: Error, _req: Request, res: Response, _next: NextFunction) {
+    let status = 500;
+    let json = {
+      status: '500 Internal Server Error',
+      message: error.message,
+    };
+
     if (error instanceof HttpError) {
       debug('Error', error.message);
-      res.status(error.status);
-      res.json({
+      status = error.status;
+      json = {
         status: `${error.status} ${error.statusMessage}`,
         message: error.message,
-      });
-      return;
+      };
+    } else if (error instanceof PrismaClientKnownRequestError) {
+      debug('Prisma error', error.message);
+      status = 403;
+      json = {
+        status: '403 Forbidden',
+        message: error.message,
+      };
     }
 
     debug('Request received', error.message);
-    res.status(500);
-    res.json({
-      status: '500 Internal Server Error',
-      message: error.message,
-    });
+    res.status(status);
+    res.json(json);
   }
 }

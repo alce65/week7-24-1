@@ -1,3 +1,5 @@
+import { type Article } from './article';
+
 export type User = {
   id: string;
   name: string;
@@ -5,6 +7,8 @@ export type User = {
   password: string;
   birthDate: Date;
   role: 'admin' | 'user' | 'guest';
+  // eslint-disable-next-line @typescript-eslint/array-type
+  articles: Partial<Article>[];
 };
 
 export type UserCreateDto = {

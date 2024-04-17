@@ -1,7 +1,7 @@
 import { ArticlesFsRepo } from './articles.fs.repo';
 import { readFile } from 'fs/promises';
 import { HttpError } from '../middleware/errors.middleware';
-import { type ArticleCreateDto } from '../entities/article';
+import { type ArticleSingleCreateDto } from '../entities/article';
 
 jest.mock('fs/promises');
 
@@ -41,7 +41,7 @@ describe('Given a instance of the class ArticlesFsRepo', () => {
   describe('When we use the method create', () => {
     test('Then it should call readFile and writeFile', async () => {
       (readFile as jest.Mock).mockResolvedValue('[]');
-      const data = {} as unknown as ArticleCreateDto;
+      const data = {} as unknown as ArticleSingleCreateDto;
       const result = await repo.create(data);
       expect(result).toEqual({
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

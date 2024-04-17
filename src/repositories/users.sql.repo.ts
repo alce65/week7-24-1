@@ -9,26 +9,35 @@ const select = {
   id: true,
   name: true,
   email: true,
-  password: true,
   birthDate: true,
   role: true,
+  articles: {
+    select: {
+      id: true,
+      title: true,
+      content: true,
+      isPublished: true,
+    },
+  },
 };
 
-export class UsersSqlRepo implements Repo<User, UserCreateDto> {
+export class UsersSqlRepo
+  implements Repo<Omit<User, 'password'>, UserCreateDto>
+{
   constructor(private readonly prisma: PrismaClient) {
-    debug('Instantiated users fs repository');
+    debug('Instantiated users sql repository');
   }
 
   async readAll() {
     return this.prisma.user.findMany({
-      distinct: ['createdAt', 'updatedAt'], // SELECT DISTINCT createdAt, updatedAt FROM user
+      select,
     });
   }
 
   async readById(id: string) {
     const user = await this.prisma.user.findUnique({
       where: { id },
-      select, // SELECT title, author... FROM user
+      select,
     });
 
     if (!user) {
@@ -56,7 +65,6 @@ export class UsersSqlRepo implements Repo<User, UserCreateDto> {
   async update(id: string, data: Partial<UserCreateDto>) {
     const user = await this.prisma.user.findUnique({
       where: { id },
-      select,
     });
     if (!user) {
       throw new HttpError(404, 'Not Found', `User ${id} not found`);
@@ -72,7 +80,6 @@ export class UsersSqlRepo implements Repo<User, UserCreateDto> {
   async delete(id: string) {
     const user = await this.prisma.user.findUnique({
       where: { id },
-      select,
     });
     if (!user) {
       throw new HttpError(404, 'Not Found', `User ${id} not found`);

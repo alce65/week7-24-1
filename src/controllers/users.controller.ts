@@ -55,7 +55,12 @@ export class UsersController extends BaseController<User, UserCreateDto> {
         return;
       }
 
-      res.status(200).send('Login successful');
+      const token = Auth.signJwt({
+        id: user.id!,
+        role: user.role!,
+      });
+
+      res.status(200).json({ token });
     } catch (error) {
       next(error);
     }

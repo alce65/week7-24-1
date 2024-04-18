@@ -75,3 +75,31 @@
   
 - Repositorio basado en interfaces
   - Inversión de dependencias
+
+Controllers: Herencia. Clases abstractas
+
+Relaciones entre entidades
+
+Uno a uno (1:1)
+Uno a muchos (1:N)
+Muchos a muchos (N:M)
+Relación 1:N -> user:article
+
+Populate (join)
+
+Operaciones con usuarios
+
+Registro
+Login (simulación)
+Auth: Autenticación y Autorización
+Autenticación: ¿Quién eres?
+
+JWT
+Hash de contraseñas bcrypt
+jsonwebtoken
+Autorización: ¿Qué puedes hacer?
+
+Interceptores
+
+Middleware de autenticación
+Middleware de autorización

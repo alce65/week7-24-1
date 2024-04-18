@@ -10,6 +10,7 @@ import { type PrismaClient } from '@prisma/client';
 import { ArticlesSqlRepo } from './repositories/articles.sql.repo.js';
 import { UsersSqlRepo } from './repositories/users.sql.repo.js';
 import { UsersController } from './controllers/users.controller.js';
+import { AuthInterceptor } from './middleware/auth.interceptor.js';
 
 const debug = createDebug('W7E:app');
 export const createApp = () => {
@@ -24,15 +25,20 @@ export const startApp = (app: Express, prisma: PrismaClient) => {
   app.use(cors());
   app.use(express.static('public'));
 
+  const authInterceptor = new AuthInterceptor();
+
   // Prev const articlesRepo = new ArticlesFsRepo();
   const articlesRepo = new ArticlesSqlRepo(prisma);
   const articlesController = new ArticlesController(articlesRepo);
-  const articlesRouter = new ArticlesRouter(articlesController);
+  const articlesRouter = new ArticlesRouter(
+    articlesController,
+    authInterceptor
+  );
   app.use('/articles', articlesRouter.router);
 
   const usersRepo = new UsersSqlRepo(prisma);
   const usersController = new UsersController(usersRepo);
-  const usersRouter = new UsersRouter(usersController);
+  const usersRouter = new UsersRouter(usersController, authInterceptor);
   app.use('/users', usersRouter.router);
 
   const errorsMiddleware = new ErrorsMiddleware();

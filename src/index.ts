@@ -27,5 +27,5 @@ server.on('error', (error) => {
 });
 
 server.on('listening', () => {
-  debug(`Server Express is running http://localhost:${port}`);
+  console.log(`Server Express is running http://localhost:${port}`);
 });

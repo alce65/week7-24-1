@@ -3,6 +3,7 @@ import { UsersRouter } from './users.router';
 
 describe('Given a instance of the class UsersRouter', () => {
   const controller = {
+    login: jest.fn(),
     getAll: jest.fn(),
     getById: jest.fn(),
     create: jest.fn(),

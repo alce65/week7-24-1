@@ -14,8 +14,16 @@ export class ArticlesRouter {
   ) {
     debug('Instantiated articles router');
 
-    this.router.get('/', controller.getAll.bind(controller));
-    this.router.get('/:id', controller.getById.bind(controller));
+    this.router.get(
+      '/',
+      authInterceptor.authentication.bind(authInterceptor),
+      controller.getAll.bind(controller)
+    );
+    this.router.get(
+      '/:id',
+      authInterceptor.authentication.bind(authInterceptor),
+      controller.getById.bind(controller)
+    );
     this.router.post(
       '/',
       authInterceptor.authentication.bind(authInterceptor),
@@ -24,12 +32,20 @@ export class ArticlesRouter {
     this.router.patch(
       '/:id',
       authInterceptor.authentication.bind(authInterceptor),
+      authInterceptor.authorization.bind(authInterceptor),
       controller.update.bind(controller)
     );
     this.router.delete(
       '/:id',
       authInterceptor.authentication.bind(authInterceptor),
+      authInterceptor.authorization.bind(authInterceptor),
       controller.delete.bind(controller)
     );
   }
 }
+
+// Ernestina: id 23 (Token)
+// Articulo: AutorId 23
+
+// Ernestina: id 23 (Token)
+// Articulo: AutorId 28

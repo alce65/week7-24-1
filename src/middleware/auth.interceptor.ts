@@ -1,7 +1,7 @@
 import { type NextFunction, type Request, type Response } from 'express';
 import createDebug from 'debug';
 import { HttpError } from './errors.middleware.js';
-import { Auth } from '../services/auth.services.js';
+import { Auth, type Payload } from '../services/auth.services.js';
 const debug = createDebug('W7E:auth:interceptor');
 
 export class AuthInterceptor {
@@ -28,5 +28,39 @@ export class AuthInterceptor {
       error.message = (err as Error).message;
       next(error);
     }
+  }
+
+  isAdmin(req: Request, res: Response, next: NextFunction) {
+    const { payload } = req.body as { payload: Payload };
+    const { role } = payload;
+    if (role !== 'admin') {
+      next(
+        new HttpError(
+          403,
+          'Forbidden',
+          'You are not allowed to access this resource'
+        )
+      );
+      return;
+    }
+
+    next();
+  }
+
+  authorization(req: Request, res: Response, next: NextFunction) {
+    const { payload } = req.body as { payload: Payload };
+    const { id } = req.params;
+    if (payload.id !== id) {
+      next(
+        new HttpError(
+          403,
+          'Forbidden',
+          'You are not allowed to access this resource'
+        )
+      );
+      return;
+    }
+
+    next();
   }
 }

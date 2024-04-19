@@ -1,10 +1,8 @@
 import { type Request, type Response } from 'express';
-import { ArticlesController } from './articles.controller';
 import { HttpError } from '../middleware/errors.middleware';
-import { type ArticlesSqlRepo } from '../repositories/articles.sql.repo';
 import { BaseController } from './base.controller';
 import { type Repo } from '../repositories/type.repo';
-import { valid, type ObjectSchema } from 'joi';
+import { type ObjectSchema } from 'joi';
 
 type TestModel = Record<string, unknown>;
 type TestCreateDto = Record<string, unknown>;

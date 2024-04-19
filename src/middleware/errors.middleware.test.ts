@@ -28,7 +28,6 @@ describe('Given a instance of the class ErrorsMiddleware', () => {
         code: 'P2025',
         clientVersion: '3.0.0',
       });
-
       middleware.handle(error, req, res, next);
       expect(res.status).toHaveBeenCalledWith(403);
       expect(res.json).toHaveBeenCalled();

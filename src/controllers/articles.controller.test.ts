@@ -1,21 +1,22 @@
+import { type Request, type Response } from 'express';
 import { ArticlesController } from './articles.controller';
 import { type ArticlesSqlRepo } from '../repositories/articles.sql.repo';
 
 describe('Given a instance of the class ArticlesController', () => {
   const repo = {
+    create: jest.fn(),
     // Previous readAll: jest.fn(),
     // readById: jest.fn(),
-    // create: jest.fn(),
     // update: jest.fn(),
     // delete: jest.fn(),
   } as unknown as ArticlesSqlRepo;
 
-  // Previous const req = {} as unknown as Request;
-  // const res = {
-  //   json: jest.fn(),
-  //   status: jest.fn(),
-  // } as unknown as Response;
-  // const next = jest.fn();
+  const req = {} as unknown as Request;
+  const res = {
+    json: jest.fn(),
+    status: jest.fn(),
+  } as unknown as Response;
+  const next = jest.fn();
 
   const controller = new ArticlesController(repo);
   test('Then it should be instance of the class', () => {
@@ -63,20 +64,20 @@ describe('Given a instance of the class ArticlesController', () => {
   //   });
   // });
 
-  // describe('When we use the method create', () => {
-  //   test('Then it should call repo.create', async () => {
-  //     const article = { title: 'title', authorId: 'test' };
-  //     const validateArticle = { ...article, content: '', isPublished: false };
-  //     req.body = article;
-  //     (repo.create as jest.Mock).mockResolvedValue(article);
-  //     await controller.create(req, res, next);
-  //     expect(repo.create).toHaveBeenCalledWith(validateArticle);
-  //     expect(res.status).toHaveBeenCalledWith(201);
-  //     expect(res.json).toHaveBeenCalledWith(article);
-  //   });
-  // });
+  describe('When we use the method create', () => {
+    test('Then it should call repo.create', async () => {
+      const article = { title: 'title', authorId: 'test' };
+      const validateArticle = { ...article, content: '', isPublished: false };
+      req.body = { ...article, payload: { id: 'test' } };
+      (repo.create as jest.Mock).mockResolvedValue(article);
+      await controller.create(req, res, next);
+      expect(repo.create).toHaveBeenCalledWith(validateArticle);
+      expect(res.status).toHaveBeenCalledWith(201);
+      expect(res.json).toHaveBeenCalledWith(article);
+    });
+  });
 
-  // describe('When we use the method create with INVALID data', () => {
+  // Previous describe('When we use the method create with INVALID data', () => {
   //   test('Then it should call next with an error', async () => {
   //     const article = { title: 'title' };
   //     req.body = article;

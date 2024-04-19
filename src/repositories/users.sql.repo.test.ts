@@ -7,6 +7,7 @@ const mockPrisma = {
   user: {
     findMany: jest.fn().mockResolvedValue([]),
     findUnique: jest.fn().mockResolvedValue({ id: '1' }),
+    findFirst: jest.fn().mockResolvedValue({ id: '1' }),
     create: jest.fn().mockResolvedValue({}),
     update: jest.fn().mockResolvedValue({}),
     delete: jest.fn().mockResolvedValue({}),
@@ -41,6 +42,33 @@ describe('Given a instance of the class UsersSqlRepo', () => {
       (mockPrisma.user.findUnique as jest.Mock).mockResolvedValueOnce(null);
       await expect(repo.readById('2')).rejects.toThrow(
         new HttpError(404, 'Not Found', 'User 2 not found')
+      );
+    });
+  });
+
+  describe('When we use the method searchForLogin with a valid key', () => {
+    test('Then it should call prisma.findFirst', async () => {
+      const result = await repo.searchForLogin('email', 'test@sample.com');
+      expect(mockPrisma.user.findFirst).toHaveBeenCalled();
+      expect(result).toEqual({ id: '1' });
+    });
+  });
+
+  describe('When we use the method searchForLogin with an invalid key', () => {
+    test('Then it should throw an error', async () => {
+      await expect(
+        repo.searchForLogin('invalid' as 'name', 'test')
+      ).rejects.toThrow(
+        new HttpError(400, 'Bad Request', 'Invalid query parameters')
+      );
+    });
+  });
+
+  describe('When we use the method searchForLogin with an invalid value', () => {
+    test('Then it should throw an error', async () => {
+      (mockPrisma.user.findFirst as jest.Mock).mockResolvedValueOnce(null);
+      await expect(repo.searchForLogin('email', 'test')).rejects.toThrow(
+        new HttpError(400, 'Bad Request', 'Invalid email or password')
       );
     });
   });

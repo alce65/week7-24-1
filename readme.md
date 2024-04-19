@@ -64,6 +64,8 @@
 
 - Publicación (Deploy) en [Render](https://render.com/)
 
+## Bases de datos SQL con Prisma
+
 - Bases de datos. SQL v.NoSQL. Conceptos básicos
   - ORM [Prisma](https://www.prisma.io/)
   - Servidor PostgreSql [Render](https://render.com/)
@@ -76,30 +78,29 @@
 - Repositorio basado en interfaces
   - Inversión de dependencias
 
-Controllers: Herencia. Clases abstractas
+- Controllers: Herencia. Clases abstractas
 
-Relaciones entre entidades
+- Relaciones entre entidades
+  - Uno a uno (1:1)
+  - Uno a muchos (1:N)
+  - Muchos a muchos (N:M)
 
-Uno a uno (1:1)
-Uno a muchos (1:N)
-Muchos a muchos (N:M)
-Relación 1:N -> user:article
-
-Populate (join)
+- Relación 1:N -> user:article
+  - Populate (join)
 
 Operaciones con usuarios
 
-Registro
-Login (simulación)
-Auth: Autenticación y Autorización
-Autenticación: ¿Quién eres?
+- Registro
+- Login (simulación)
 
-JWT
-Hash de contraseñas bcrypt
-jsonwebtoken
-Autorización: ¿Qué puedes hacer?
+## Auth: Autenticación y Autorización
 
-Interceptores
+- Autenticación: ¿Quién eres?
+  - [JWT](https://jwt.io/)
+  - Hash de contraseñas [bcrypt](https://www.npmjs.com/package/bcrypt)
+  - [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
+- Autorización: ¿Qué puedes hacer?
 
-Middleware de autenticación
-Middleware de autorización
+- Interceptores
+  - Middleware de autenticación
+  - Middleware de autorización

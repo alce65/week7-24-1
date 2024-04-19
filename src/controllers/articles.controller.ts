@@ -25,9 +25,9 @@ export class ArticlesController extends BaseController<
     debug('Creating article');
     req.body.authorId = (req.body.payload as Payload).id;
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const { payload, ...rest } = req.body;
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const { payload, ...rest } = req.body as ArticleCreateDto & {
+      payload: Payload;
+    };
     req.body = rest;
 
     await super.create(req, res, next);

@@ -1,9 +1,4 @@
-import {
-  type NextFunction,
-  type Request,
-  type Response,
-  Router as createRouter,
-} from 'express';
+import { Router as createRouter } from 'express';
 import createDebug from 'debug';
 import { type UsersController } from '../controllers/users.controller';
 import { type AuthInterceptor } from '../middleware/auth.interceptor';

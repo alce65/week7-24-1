@@ -2,6 +2,7 @@ import { Router as createRouter } from 'express';
 import createDebug from 'debug';
 import { type ArticlesController } from '../controllers/articles.controller';
 import { type AuthInterceptor } from '../middleware/auth.interceptor';
+import { type ArticlesSqlRepo } from '../repositories/articles.sql.repo';
 
 const debug = createDebug('W7E:articles:router');
 
@@ -10,7 +11,8 @@ export class ArticlesRouter {
 
   constructor(
     readonly controller: ArticlesController,
-    readonly authInterceptor: AuthInterceptor
+    readonly authInterceptor: AuthInterceptor,
+    readonly articlesSqlRepo: ArticlesSqlRepo
   ) {
     debug('Instantiated articles router');
 
@@ -32,13 +34,17 @@ export class ArticlesRouter {
     this.router.patch(
       '/:id',
       authInterceptor.authentication.bind(authInterceptor),
-      authInterceptor.authorization.bind(authInterceptor),
+      authInterceptor
+        .authorization(articlesSqlRepo, 'author')
+        .bind(authInterceptor),
       controller.update.bind(controller)
     );
     this.router.delete(
       '/:id',
       authInterceptor.authentication.bind(authInterceptor),
-      authInterceptor.authorization.bind(authInterceptor),
+      authInterceptor
+        .authorization(articlesSqlRepo, 'author')
+        .bind(authInterceptor),
       controller.delete.bind(controller)
     );
   }

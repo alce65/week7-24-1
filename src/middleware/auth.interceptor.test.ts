@@ -15,12 +15,10 @@ describe('Given a instance of the class AuthInterceptor', () => {
       body: {},
       get: jest.fn().mockReturnValue('Bearer myToken'),
     } as unknown as Request;
-    const res = {
-      json: jest.fn(),
-      status: jest.fn(),
-    } as unknown as Response;
+    const res = {} as unknown as Response;
     const next = jest.fn();
-    test('Then it should call next without parameters', () => {
+
+    test('Then it should call next with valid data', () => {
       interceptor.authentication(req, res, next);
       expect(Auth.verifyJwt).toHaveBeenCalled();
       expect(req.body.payload).toEqual({ id: '123' });

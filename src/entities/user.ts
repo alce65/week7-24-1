@@ -5,6 +5,7 @@ export type User = {
   name: string;
   email: string;
   password?: string;
+  avatar: string;
   birthDate: Date;
   role: 'admin' | 'user' | 'guest';
   // eslint-disable-next-line @typescript-eslint/array-type
@@ -15,6 +16,7 @@ export type UserCreateDto = {
   name: string;
   email: string;
   password: string;
+  avatar: string;
   birthDateString: string;
 };
 

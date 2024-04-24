@@ -79,6 +79,9 @@ export class UsersController extends BaseController<User, UserCreateDto> {
     }
 
     req.body.password = await Auth.hash(req.body.password as string);
+
+    req.body.avatar = req.file ? req.file.filename : 'sample.jpg';
+
     await super.create(req, res, next);
   }
 

@@ -11,8 +11,9 @@ import { ArticlesSqlRepo } from './repositories/articles.sql.repo.js';
 import { UsersSqlRepo } from './repositories/users.sql.repo.js';
 import { UsersController } from './controllers/users.controller.js';
 import { AuthInterceptor } from './middleware/auth.interceptor.js';
-import { FilesController } from './controllers/files.conroller.js';
+import { FilesController } from './controllers/files.controller.js';
 import { FilesRouter } from './routers/files.router.js';
+import { FilesInterceptor } from './middleware/files.interceptor.js';
 
 const debug = createDebug('W7E:app');
 export const createApp = () => {
@@ -28,6 +29,7 @@ export const startApp = (app: Express, prisma: PrismaClient) => {
   app.use(express.static('public'));
 
   const authInterceptor = new AuthInterceptor();
+  const filesInterceptor = new FilesInterceptor();
 
   // Prev const articlesRepo = new ArticlesFsRepo();
   const articlesRepo = new ArticlesSqlRepo(prisma);
@@ -41,11 +43,16 @@ export const startApp = (app: Express, prisma: PrismaClient) => {
 
   const usersRepo = new UsersSqlRepo(prisma);
   const usersController = new UsersController(usersRepo);
-  const usersRouter = new UsersRouter(usersController, authInterceptor);
+  const usersRouter = new UsersRouter(
+    usersController,
+    authInterceptor,
+    filesInterceptor
+  );
   app.use('/users', usersRouter.router);
 
   const filesController = new FilesController();
-  const filesRouter = new FilesRouter(filesController);
+  const filesRouter = new FilesRouter(filesController, filesInterceptor);
+
   app.use('/files', filesRouter.router);
   const errorsMiddleware = new ErrorsMiddleware();
   app.use(errorsMiddleware.handle.bind(errorsMiddleware));

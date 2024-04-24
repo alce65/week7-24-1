@@ -1,16 +1,17 @@
 import { Router as createRouter } from 'express';
-import { type FilesController } from '../controllers/files.conroller';
-import multer from 'multer';
-
-const upload = multer({ dest: 'uploads/' });
+import { type FilesController } from '../controllers/files.controller';
+import { type FilesInterceptor } from '../middleware/files.interceptor';
 
 export class FilesRouter {
   router = createRouter();
 
-  constructor(readonly controller: FilesController) {
+  constructor(
+    readonly controller: FilesController,
+    readonly interceptor: FilesInterceptor
+  ) {
     this.router.post(
       '/',
-      upload.single('avatar'),
+      interceptor.singleFile('avatar').bind(interceptor),
       controller.fileHandler.bind(controller)
     );
   }

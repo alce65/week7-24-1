@@ -10,6 +10,7 @@ const select = {
   name: true,
   email: true,
   birthDate: true,
+  avatar: true,
   role: true,
   articles: {
     select: {

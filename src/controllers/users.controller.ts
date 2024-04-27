@@ -16,7 +16,7 @@ export class UsersController extends BaseController<User, UserCreateDto> {
   constructor(protected readonly repo: WithLoginRepo<User, UserCreateDto>) {
     super(repo, userCreateDtoSchema, userUpdateDtoSchema);
 
-    debug('Instantiated user controller');
+    debug('Instantiated users controller');
   }
 
   async login(req: Request, res: Response, next: NextFunction) {
@@ -80,7 +80,7 @@ export class UsersController extends BaseController<User, UserCreateDto> {
 
     req.body.password = await Auth.hash(req.body.password as string);
 
-    req.body.avatar = req.file ? req.file.filename : 'sample.jpg';
+    req.body.avatar = req.body.cloudinary?.url as string;
 
     await super.create(req, res, next);
   }

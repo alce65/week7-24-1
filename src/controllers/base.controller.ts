@@ -4,7 +4,7 @@ import type Joi from 'joi';
 import { HttpError } from '../middleware/errors.middleware.js';
 import { type Repo } from '../repositories/type.repo';
 
-const debug = createDebug('W7E:articles:controller');
+const debug = createDebug('W7E:base:controller');
 
 export abstract class BaseController<T, C> {
   constructor(
@@ -12,7 +12,7 @@ export abstract class BaseController<T, C> {
     protected readonly validateCreateDtoSchema: Joi.ObjectSchema<C>,
     protected readonly validateUpdateDtoSchema: Joi.ObjectSchema<C>
   ) {
-    debug('Instantiated article controller');
+    debug('Instantiated base controller');
   }
 
   async getAll(req: Request, res: Response, next: NextFunction) {

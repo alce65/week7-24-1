@@ -13,9 +13,10 @@ describe('Given a instance of the class ArticlesRouter', () => {
   } as unknown as ArticlesController;
   const authInterceptor = {
     authentication: jest.fn(),
-    authorization: jest.fn(),
+    authorization: jest.fn().mockReturnValue(jest.fn()),
   } as unknown as AuthInterceptor;
   const repo = {} as unknown as ArticlesSqlRepo;
+
   const router = new ArticlesRouter(controller, authInterceptor, repo);
   test('Then it should be instance of the class', () => {
     expect(router).toBeInstanceOf(ArticlesRouter);

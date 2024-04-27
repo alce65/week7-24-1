@@ -11,8 +11,9 @@ export class AuthInterceptor {
   }
 
   authentication(req: Request, _res: Response, next: NextFunction) {
-    const data = req.get('Authorization');
+    debug('Authenticating');
 
+    const data = req.get('Authorization');
     const error = new HttpError(498, ' Token expired/invalid', 'Token invalid');
 
     if (!data?.startsWith('Bearer ')) {
@@ -32,6 +33,7 @@ export class AuthInterceptor {
   }
 
   isAdmin(req: Request, res: Response, next: NextFunction) {
+    debug('Checking if user is admin');
     const { payload } = req.body as { payload: Payload };
     const { role } = payload;
     if (role !== 'admin') {
@@ -48,7 +50,10 @@ export class AuthInterceptor {
     next();
   }
 
-  authorization<T>(repo: Repo<T, any>, ownerKey?: keyof T) {
+  authorization<T extends { id: string }>(
+    repo: Repo<T, Partial<T>>,
+    ownerKey?: keyof T
+  ) {
     return async (req: Request, res: Response, next: NextFunction) => {
       debug('Authorizing');
 
@@ -62,12 +67,10 @@ export class AuthInterceptor {
       }
 
       try {
-        const item = (await repo.readById(req.params.id)) as Awaited<T> & {
-          id: string;
-        };
-        const ownerId = ownerKey
-          ? (item[ownerKey] as { id: string }).id
-          : item.id;
+        const item: T = await repo.readById(req.params.id);
+
+        const ownerId = ownerKey ? item[ownerKey] : item.id;
+
         if (payload.id !== ownerId) {
           next(
             new HttpError(

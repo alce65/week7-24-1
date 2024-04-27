@@ -49,9 +49,3 @@ export class ArticlesRouter {
     );
   }
 }
-
-// Ernestina: id 23 (Token)
-// Articulo: AutorId 23
-
-// Ernestina: id 23 (Token)
-// Articulo: AutorId 28
